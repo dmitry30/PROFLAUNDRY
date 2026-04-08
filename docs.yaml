@@ -1,0 +1,25 @@
+project:
+  name: "PROFLAUNDRY"
+  title: "ProfLaundry — Профессиональная прачечная"
+  description: "Система управления заказами профессиональной прачечной"
+  version: "1.0.0"
+
+stack:
+  backend: ""
+  database: ""
+  frontend: ""
+
+pages:
+  - id: overview
+    title: "Обзор проекта"
+    file: docs/index.md
+    locked: true
+
+docs_settings:
+  changes_dir: "docs/_changes"
+  attachments_dir: "docs/_attachments"
+  main_branch: "main"
+  develop_branches:
+    - "^develop$"
+  feature_branches:
+    - "^feature/"
