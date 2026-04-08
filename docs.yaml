@@ -15,6 +15,26 @@ pages:
     file: docs/index.md
     locked: true
 
+  - id: business
+    title: "Бизнес-процесс"
+    file: docs/business/index.md
+    children:
+      - id: business.statements
+        title: "Утверждения"
+        file: docs/business/statements.md
+
+  - id: models
+    title: "Модели Django"
+    file: docs/models/index.md
+
+  - id: architecture
+    title: "Архитектура"
+    file: docs/architecture/index.md
+
+  - id: ui
+    title: "Интерфейс"
+    file: docs/ui/index.md
+
 docs_settings:
   changes_dir: "docs/_changes"
   attachments_dir: "docs/_attachments"
