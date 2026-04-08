@@ -2,6 +2,7 @@
 id: business.statements
 title: "Утверждения"
 last_updated: "2026-04-09"
+
 updated_by: "human"
 tags: [business, statements, rules]
 related: [business]
@@ -22,4 +23,5 @@ related: [business]
 
 ## Утверждения
 
-*Раздел будет наполняться по мере формулировки бизнес-требований.*
+### BP-001
+> Бизнес-процесс разбивается на как можно меньшие части, которые могут существовать независимо друг от друга.
