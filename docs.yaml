@@ -12,49 +12,49 @@ stack:
 pages:
   - id: overview
     title: "Обзор проекта"
-    file: docs/index.md
+    file: index.md
     locked: true
 
   - id: business
     title: "Бизнес-процесс"
-    file: docs/business/index.md
+    file: business/index.md
     children:
       - id: business.statements
         title: "Утверждения"
-        file: docs/business/statements.md
+        file: business/statements.md
       - id: business.nomenclature
         title: "Номенклатура и прайс-лист"
-        file: docs/business/nomenclature.md
+        file: business/nomenclature.md
       - id: business.reception
         title: "Приёмка"
-        file: docs/business/reception.md
+        file: business/reception.md
       - id: business.order
         title: "Заказ"
-        file: docs/business/order.md
+        file: business/order.md
       - id: business.logistics
         title: "Логистика"
-        file: docs/business/logistics.md
+        file: business/logistics.md
       - id: business.billing
         title: "Расчётный лист"
-        file: docs/business/billing.md
+        file: business/billing.md
       - id: business.accounting
         title: "Бухгалтерия"
-        file: docs/business/accounting.md
+        file: business/accounting.md
       - id: business.chat
         title: "Чат"
-        file: docs/business/chat.md
+        file: business/chat.md
 
   - id: models
     title: "Модели Django"
-    file: docs/models/index.md
+    file: models/index.md
 
   - id: architecture
     title: "Архитектура"
-    file: docs/architecture/index.md
+    file: architecture/index.md
 
   - id: ui
     title: "Интерфейс"
-    file: docs/ui/index.md
+    file: ui/index.md
 
 docs_settings:
   changes_dir: "docs/_changes"
