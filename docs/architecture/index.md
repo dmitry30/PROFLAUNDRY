@@ -143,6 +143,86 @@ flowchart LR
 
 ---
 
+## Техническая реализация модулей
+
+### Модуль = Django App
+
+Каждый модуль — отдельное Django-приложение. Приложение объявляет себя через `AppConfig`:
+
+```python
+# modules/orders/apps.py
+class OrdersConfig(AppConfig):
+    name = "modules.orders"
+    label = "orders"
+
+    # Метаданные модуля
+    module_meta = {
+        "title": "Заказы",
+        "description": "Универсальный жизненный цикл заказа",
+        "is_base": True,           # базовый = включён по умолчанию
+        "depends_on": ["clients", "nomenclature"],
+    }
+```
+
+Все модули всегда установлены и задеплоены. «Включение» — feature flag в БД, не загрузка кода.
+
+### Таблица модулей организации
+
+```
+OrganizationModule
+├── organization  FK → Organization
+├── module        str  (app label, например "orders")
+├── is_visible    bool (администратор выдал доступ — орг видит модуль)
+└── is_enabled    bool (модуль активен для организации)
+```
+
+Состояния:
+
+| is_visible | is_enabled | Что видит организация |
+|:---:|:---:|---|
+| false | false | Модуль не существует для организации |
+| true | false | Видит модуль, но он отключён |
+| true | true | Модуль работает |
+
+### Управление модулями
+
+```mermaid
+flowchart TD
+    PA[Администратор платформы]
+    ORG[Организация]
+    MOD[Модуль]
+
+    PA -->|1. Выдаёт доступ\nis_visible=true| ORG
+    PA -->|2. Включает\nis_enabled=true| ORG
+    PA -->|3. Может выключить\nв любой момент| ORG
+    ORG -->|Видит и использует| MOD
+
+    style PA fill:#e3f2fd
+    style ORG fill:#e8f5e9
+```
+
+Организация **не управляет модулями самостоятельно**. Вся инициатива — на стороне администратора платформы.
+
+### Как модуль расширяет другой модуль
+
+Через явные зависимости и Django-сигналы / хуки. Модуль `reception` знает о модуле `orders` и регистрирует расширения при старте:
+
+```python
+# modules/reception/apps.py
+module_meta = {
+    "depends_on": ["orders"],   # reception требует orders
+}
+
+def ready(self):
+    # регистрирует дополнительные точки входа в заказ
+    from modules.orders import hooks
+    hooks.register("order_detail", self.provide_reception_tab)
+```
+
+Модуль `orders` при этом ничего не знает о `reception`.
+
+---
+
 ## Следующие разделы архитектуры
 
 *Разделы добавляются по мере проектирования.*
