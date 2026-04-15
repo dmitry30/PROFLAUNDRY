@@ -63,6 +63,10 @@ pages:
             title: "Требования к миграции"
             file: organizations/ccl/migration.md
 
+  - id: terminology
+    title: "Терминология"
+    file: terminology.md
+
   - id: ui
     title: "Интерфейс"
     file: ui/index.md
