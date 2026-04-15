@@ -25,12 +25,12 @@ pages:
       - id: business.nomenclature
         title: "Номенклатура и прайс-лист"
         file: business/nomenclature.md
-      - id: business.reception
-        title: "Приёмка"
-        file: business/reception.md
       - id: business.order
         title: "Заказ"
         file: business/order.md
+      - id: business.reception
+        title: "Приёмка"
+        file: business/reception.md
       - id: business.logistics
         title: "Логистика"
         file: business/logistics.md
@@ -44,13 +44,24 @@ pages:
         title: "Чат"
         file: business/chat.md
 
-  - id: models
-    title: "Модели Django"
-    file: models/index.md
-
   - id: architecture
     title: "Архитектура"
     file: architecture/index.md
+
+  - id: organizations
+    title: "Организации"
+    file: organizations/index.md
+    children:
+      - id: organizations.ccl
+        title: "Прачечная CCL"
+        file: organizations/ccl/index.md
+        children:
+          - id: organizations.ccl.process
+            title: "Бизнес-процесс"
+            file: organizations/ccl/process.md
+          - id: organizations.ccl.migration
+            title: "Требования к миграции"
+            file: organizations/ccl/migration.md
 
   - id: ui
     title: "Интерфейс"
