@@ -29,13 +29,13 @@ class EmployeeManager(BaseUserManager):
 
 class Employee(AbstractBaseUser, PermissionsMixin):
     """
-    Пользователь системы. Заменяет стандартный Django User.
+    Пользователь системы. Заменяет стандартный Django User (AUTH_USER_MODEL).
 
-    Сотрудники организаций: organization задан, username уникален в рамках организации.
-    Суперпользователи платформы: organization=None, username уникален среди суперпользователей.
+    Сотрудники организаций: organization задан, username уникален внутри организации.
+    Вход: организация + логин + пароль (OrgEmployeeBackend).
 
-    Вход для сотрудников: организация + логин + пароль.
-    Вход для суперпользователей платформы: логин + пароль (без организации).
+    Суперпользователи платформы: organization=None.
+    Вход: логин + пароль (PlatformAdminBackend).
     """
     organization = models.ForeignKey(
         'Organization',
@@ -48,11 +48,23 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     username = models.CharField('Логин', max_length=150)
     first_name = models.CharField('Имя', max_length=150, blank=True)
     last_name = models.CharField('Фамилия', max_length=150, blank=True)
+    position = models.CharField(
+        'Должность',
+        max_length=255,
+        blank=True,
+        help_text='Только для отображения. Права определяются ролями.',
+    )
+    roles = models.ManyToManyField(
+        'OrgRole',
+        related_name='employees',
+        blank=True,
+        verbose_name='Роли',
+    )
     is_active = models.BooleanField('Активен', default=True)
     is_staff = models.BooleanField(
-        'Доступ к платформенной панели',
+        'Доступ к platform_admin',
         default=False,
-        help_text='Разрешает вход в platform_admin. Для суперпользователей.',
+        help_text='Разрешает вход в панель платформы. Только для суперпользователей.',
     )
     created_at = models.DateTimeField('Создан', auto_now_add=True)
 
@@ -62,8 +74,8 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     objects = EmployeeManager()
 
     class Meta:
-        verbose_name = 'Сотрудник / Пользователь'
-        verbose_name_plural = 'Сотрудники / Пользователи'
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
         unique_together = [('organization', 'username')]
 
     def __str__(self):
@@ -74,3 +86,40 @@ class Employee(AbstractBaseUser, PermissionsMixin):
     @property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'.strip() or self.username
+
+    # --- Система прав ---
+    # Итоговые права = объединение прав всех ролей + индивидуальные права.
+    # Суперпользователи имеют все права без проверок.
+
+    def get_all_permissions(self, obj=None):
+        if not self.is_active:
+            return set()
+        if self.is_superuser:
+            from django.contrib.auth.models import Permission
+            return set(
+                f'{p.content_type.app_label}.{p.codename}'
+                for p in Permission.objects.all().select_related('content_type')
+            )
+        if not hasattr(self, '_perm_cache'):
+            perms = set()
+            for role in self.roles.prefetch_related('permissions__content_type').all():
+                for p in role.permissions.all():
+                    perms.add(f'{p.content_type.app_label}.{p.codename}')
+            for p in self.user_permissions.select_related('content_type').all():
+                perms.add(f'{p.content_type.app_label}.{p.codename}')
+            self._perm_cache = perms
+        return self._perm_cache
+
+    def has_perm(self, perm, obj=None):
+        if not self.is_active:
+            return False
+        if self.is_superuser:
+            return True
+        return perm in self.get_all_permissions()
+
+    def has_module_perms(self, app_label):
+        if not self.is_active:
+            return False
+        if self.is_superuser:
+            return True
+        return any(p.startswith(f'{app_label}.') for p in self.get_all_permissions())
