@@ -57,8 +57,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+AUTH_USER_MODEL = 'platform_core.Employee'
+
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'platform_core.backends.PlatformAdminBackend',
+    'platform_core.backends.OrgEmployeeBackend',
     # ClientPortalBackend will be added when portal module is enabled
 ]
 
