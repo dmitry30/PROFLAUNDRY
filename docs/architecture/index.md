@@ -3,6 +3,7 @@ id: architecture
 title: "Архитектура"
 last_updated: "2026-04-16"
 updated_by: "claude"
+tags: [architecture, structure, modules, django, core, admin, roles, settings]
 tags: [architecture, structure, modules, django, core]
 related: [business, business.statements]
 ---
@@ -447,6 +448,84 @@ timeout = get_setting(request.organization, 'reception', 'processing_timeout_hou
 |----------|-----|
 | Определить доступные настройки модуля | Разработчик (в коде, через `ModuleSettingDefinition`) |
 | Установить значение для организации | Администратор платформы или сама организация (если разрешено) |
+
+---
+
+## Admin-сайты и URL-пути
+
+Система использует три отдельных экземпляра `AdminSite`:
+
+| URL | AdminSite | Кто заходит | Фильтрация данных |
+|-----|-----------|-------------|-------------------|
+| `/platform/` | `platform_admin` | Суперпользователи платформы | Без фильтрации — видят всё |
+| `/app/` | `org_admin` | Сотрудники организаций | По `request.organization` |
+| `/portal/` | `client_admin` | Клиенты через портал | По `request.portal_user.client` |
+
+Все три сайта определены в `platform_core/admin_sites.py`. URL подключены в `config/urls.py`.
+
+### Что регистрируется на каждом сайте
+
+**`platform_admin`** (`platform_core/admin.py`):
+- `Organization` + `OrganizationModule` (inline) + `OrganizationModuleSetting` (inline)
+- `Employee` — все сотрудники всех организаций
+- `MetaRole`, `OrgRole` — шаблоны и роли
+- `ModuleSettingDefinition` — определения настроек модулей
+- `MetaClient` + `MetaClientLink` (inline)
+
+**`org_admin`** (`platform_core/admin.py`, `modules/*/admin.py`):
+- `Employee` — только сотрудники своей организации
+- `OrgRole` — только роли своей организации
+- `OrganizationModule` — только просмотр (read-only)
+- `OrganizationModuleSetting` — настройки модулей своей организации
+- Модели модулей — каждый модуль регистрирует свои через `@admin.register(..., site=org_admin)`
+
+### OrgFilteredMixin
+
+Mixin для `org_admin` регистраций — автоматически фильтрует данные по организации и проставляет её при создании:
+
+```python
+class OrgFilteredMixin:
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(organization=request.organization)
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.organization = request.organization
+        super().save_model(request, obj, form, change)
+```
+
+Все `ModelAdmin` в `org_admin`, работающие с org-scoped данными, должны наследоваться от этого mixin.
+
+---
+
+## Тестовые данные
+
+Для разработки предусмотрена management-команда, создающая полный набор тестовых данных:
+
+```bash
+venv/Scripts/python.exe manage.py create_test_data
+venv/Scripts/python.exe manage.py create_test_data --reset  # пересоздать
+```
+
+Что создаётся:
+
+| Что | Детали |
+|-----|--------|
+| Организация | `ТестОрг` (slug: `test-org`) |
+| Модули | `clients` — включён |
+| Роли | `Менеджер` (полный доступ к клиентам), `Оператор` (только просмотр) |
+| Сотрудники | `manager/test`, `operator/test` |
+| Клиенты | ООО «ТестКомпания» (2 объекта), Сидоров А.П. (1 объект) |
+| Настройки | `clients.default_client_type`, `clients.require_inn` (переопределено для ТестОрг) |
+| Шаблон роли | `MetaRole: Менеджер` |
+
+Вход после запуска:
+
+```
+/platform/  →  admin / admin         (суперпользователь платформы)
+/app/       →  test-org / manager / test
+/app/       →  test-org / operator / test
+```
 
 ---
 
