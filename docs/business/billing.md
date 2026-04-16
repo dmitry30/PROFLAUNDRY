@@ -1,8 +1,8 @@
 ---
 id: business.billing
 title: "Расчётный лист"
-last_updated: "2026-04-09"
-updated_by: "human"
+last_updated: "2026-04-16"
+updated_by: "claude"
 tags: [billing, statement, finance, business]
 related: [business, business.order, business.reception, business.accounting]
 ---
@@ -19,7 +19,7 @@ related: [business, business.order, business.reception, business.accounting]
 
 | Компонент | Источник |
 |-----------|----------|
-| Стоимость обработки белья | Расчётные позиции приёмок |
+| Стоимость обработки | Расчётные позиции приёмок |
 | Стоимость логистики (доставка) | Задачи логистики, связанные с заказами периода |
 | Надбавка за срочность | Атрибут заказа |
 | Нестандартные позиции | Ручные позиции из приёмок |
