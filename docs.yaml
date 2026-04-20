@@ -1,0 +1,49 @@
+project:
+  name: "PROFLAUNDRY"
+  title: "PROFLAUNDRY Platform"
+  description: "Универсальная веб-платформа для управления бизнесом"
+  version: "0.1.0"
+
+stack:
+  backend: "Django 5.x"
+  database: "SQLite (dev) / PostgreSQL (prod)"
+  frontend: ""
+
+pages:
+  - id: overview
+    title: "Обзор проекта"
+    file: index.md
+    locked: true
+
+  - id: architecture
+    title: "Архитектура"
+    file: architecture/index.md
+
+  - id: platform_core
+    title: "Ядро платформы"
+    file: platform_core/index.md
+
+  - id: counterparties
+    title: "Контрагенты"
+    file: modules/counterparties.md
+
+  - id: nomenclature
+    title: "Номенклатура"
+    file: modules/nomenclature.md
+
+  - id: orders
+    title: "Заказы"
+    file: modules/orders.md
+
+  - id: billing
+    title: "Расчёты"
+    file: modules/billing.md
+
+docs_settings:
+  changes_dir: "docs/_changes"
+  attachments_dir: "docs/_attachments"
+  main_branch: "main"
+  develop_branches:
+    - "^develop$"
+  feature_branches:
+    - "^feature/"
