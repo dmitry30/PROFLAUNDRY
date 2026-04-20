@@ -17,6 +17,11 @@ INSTALLED_APPS = [
     'rest_framework',
     # Platform
     'platform_core',
+    # Modules
+    'modules.counterparties',
+    'modules.nomenclature',
+    'modules.orders',
+    'modules.billing',
 ]
 
 MIDDLEWARE = [

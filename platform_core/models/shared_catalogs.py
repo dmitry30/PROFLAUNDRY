@@ -33,6 +33,23 @@ class UnitOfMeasure(models.Model):
         return f'{self.short_name or self.name}'
 
 
+class Bank(models.Model):
+    """Банк — общий справочник платформы."""
+    bik = models.CharField(max_length=9, unique=True, verbose_name='БИК')
+    name = models.CharField(max_length=500, verbose_name='Наименование')
+    correspondent_account = models.CharField(max_length=20, blank=True, verbose_name='Корреспондентский счёт')
+    city = models.CharField(max_length=200, blank=True, verbose_name='Город')
+    is_active = models.BooleanField(default=True, verbose_name='Активен')
+
+    class Meta:
+        verbose_name = 'Банк'
+        verbose_name_plural = 'Банки'
+        ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name} (БИК {self.bik})'
+
+
 class ChartOfAccountsItem(OrgScopedModel):
     """
     Элемент Плана счетов организации.

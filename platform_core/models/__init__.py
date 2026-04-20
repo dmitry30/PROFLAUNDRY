@@ -6,4 +6,4 @@ from .base import TimeStampedModel, OrgScopedModel
 from .catalog import CatalogItem
 from .document import Document, DocumentStatus
 from .register import AccumulationRegisterMovement, InformationRegisterRecord, AccountingEntry
-from .shared_catalogs import Currency, UnitOfMeasure, ChartOfAccountsItem
+from .shared_catalogs import Currency, UnitOfMeasure, Bank, ChartOfAccountsItem
