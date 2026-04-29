@@ -1,3 +1,12 @@
+---
+id: modules.counterparties
+title: "Контрагенты"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [modules, counterparties, clients, django]
+related: [modules, platform_core]
+---
+
 # Модуль: Контрагенты (`counterparties`)
 
 Модуль управляет клиентами, контрагентами (юрлицами), физическими лицами, банковскими счетами и договорами.

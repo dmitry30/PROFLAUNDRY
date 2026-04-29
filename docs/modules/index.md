@@ -1,3 +1,12 @@
+---
+id: modules
+title: "Модули платформы"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [modules, django, architecture]
+related: [architecture, platform_core]
+---
+
 # Модули платформы
 
 Модули — это Django-приложения в папке `modules/`, каждое из которых реализует конкретную бизнес-область. Все модели модулей наследуются от абстрактных базовых классов `platform_core`.

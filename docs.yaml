@@ -15,6 +15,35 @@ pages:
     file: index.md
     locked: true
 
+  - id: business
+    title: "Бизнес-процесс"
+    file: business/index.md
+    children:
+      - id: business.statements
+        title: "Утверждения (BP)"
+        file: business/statements.md
+      - id: business.nomenclature
+        title: "Номенклатура и цены"
+        file: business/nomenclature.md
+      - id: business.order
+        title: "Заказ"
+        file: business/order.md
+      - id: business.reception
+        title: "Приёмка"
+        file: business/reception.md
+      - id: business.logistics
+        title: "Логистика"
+        file: business/logistics.md
+      - id: business.billing
+        title: "Расчётный лист и выставление счетов"
+        file: business/billing.md
+      - id: business.accounting
+        title: "Бухгалтерия"
+        file: business/accounting.md
+      - id: business.chat
+        title: "Чат"
+        file: business/chat.md
+
   - id: architecture
     title: "Архитектура"
     file: architecture/index.md
@@ -23,21 +52,41 @@ pages:
     title: "Ядро платформы"
     file: platform_core/index.md
 
-  - id: counterparties
-    title: "Контрагенты"
-    file: modules/counterparties.md
+  - id: modules
+    title: "Модули"
+    file: modules/index.md
+    children:
+      - id: modules.counterparties
+        title: "Контрагенты"
+        file: modules/counterparties.md
+      - id: modules.nomenclature
+        title: "Номенклатура"
+        file: modules/nomenclature.md
+      - id: modules.orders
+        title: "Заказы"
+        file: modules/orders.md
+      - id: modules.billing
+        title: "Расчёты"
+        file: modules/billing.md
 
-  - id: nomenclature
-    title: "Номенклатура"
-    file: modules/nomenclature.md
+  - id: organizations
+    title: "Организации"
+    file: organizations/index.md
+    children:
+      - id: organizations.ccl
+        title: "Прачечная CCL"
+        file: organizations/ccl/index.md
+        children:
+          - id: organizations.ccl.process
+            title: "Бизнес-процесс CCL"
+            file: organizations/ccl/process.md
+          - id: organizations.ccl.migration
+            title: "Требования к миграции"
+            file: organizations/ccl/migration.md
 
-  - id: orders
-    title: "Заказы"
-    file: modules/orders.md
-
-  - id: billing
-    title: "Расчёты"
-    file: modules/billing.md
+  - id: terminology
+    title: "Терминология"
+    file: terminology.md
 
 docs_settings:
   changes_dir: "docs/_changes"

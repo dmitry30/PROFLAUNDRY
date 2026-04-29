@@ -1,3 +1,12 @@
+---
+id: modules.nomenclature
+title: "Номенклатура"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [modules, nomenclature, prices, django]
+related: [modules, platform_core, business.nomenclature]
+---
+
 # Модуль: Номенклатура (`nomenclature`)
 
 Модуль управляет товарами/услугами/работами и ценами на них.

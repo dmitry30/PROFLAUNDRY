@@ -1,3 +1,12 @@
+---
+id: modules.billing
+title: "Расчёты"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [modules, billing, invoices, payments, django]
+related: [modules, platform_core, business.billing]
+---
+
 # Модуль: Расчёты (`billing`)
 
 Модуль управляет счетами на оплату, оплатами и регистром взаиморасчётов с клиентами.

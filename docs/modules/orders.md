@@ -1,3 +1,12 @@
+---
+id: modules.orders
+title: "Заказы"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [modules, orders, django]
+related: [modules, platform_core, business.order]
+---
+
 # Модуль: Заказы (`orders`)
 
 Модуль управляет заказами клиентов и ведёт регистр накопления заказанных объёмов.

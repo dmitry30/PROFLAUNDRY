@@ -1,3 +1,12 @@
+---
+id: platform_core
+title: "Ядро платформы"
+last_updated: "2026-04-29"
+updated_by: "claude"
+tags: [platform_core, django, architecture, base_classes]
+related: [architecture, modules]
+---
+
 # platform_core — Ядро платформы
 
 `platform_core` — Django-приложение, содержащее всю платформенную логику: модели организаций, сотрудников, ролей, абстрактные базовые классы для модулей, общие справочники и три AdminSite.
